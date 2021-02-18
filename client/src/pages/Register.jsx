@@ -2,16 +2,23 @@ import React, { useState } from 'react';
 import { Button, Form } from 'semantic-ui-react';
 import { useMutation, gql } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
+import { useForm } from '../util/hooks';
 
 
 const Register = () => {
     const [errors, setErrors] = useState({});
-    const [values, setValues] = useState({
+    // const [values, setValues] = useState({
+    //     username: '',
+    //     email: '',
+    //     password: '',
+    //     confirmPassword: ''
+    // })
+    const { onChange, onSubmit, values } = useForm(registerUser, {
         username: '',
         email: '',
         password: '',
         confirmPassword: ''
-    })
+    });
 
     const history = useHistory()
 
@@ -26,15 +33,19 @@ const Register = () => {
         variables: values
     })
 
-    const onChange = (e) => {
-        setValues({
-            ...values,
-            [e.target.name]: e.target.value
-        })
-    }
+    // const onChange = (e) => {
+    //     setValues({
+    //         ...values,
+    //         [e.target.name]: e.target.value
+    //     })
+    // }
 
-    const onSubmit = (e) => {
-        e.preventDefault()
+    // const onSubmit = (e) => {
+    //     e.preventDefault()
+    //     addUser()
+    // }
+    
+    function registerUser() {
         addUser()
     }
 

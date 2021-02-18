@@ -2,20 +2,26 @@ import React, { useState } from 'react';
 import { Button, Form } from 'semantic-ui-react';
 import { useMutation, gql } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
+import { useForm } from '../util/hooks';
 
 
 const Login = () => {
     const [errors, setErrors] = useState({});
-    const [values, setValues] = useState({
+    // const [values, setValues] = useState({
+    //     username: '',
+    //     email: '',
+    //     password: '',
+    //     confirmPassword: ''
+    // })
+    const { onChange, onSubmit, values } = useForm(loginUserCallback, {
         username: '',
-        email: '',
         password: '',
-        confirmPassword: ''
-    })
+    });
+
 
     const history = useHistory()
 
-    const [addUser, { loading }] = useMutation(LOGIN_USER, {
+    const [loginUser, { loading }] = useMutation(LOGIN_USER, {
         update(proxy, result){
             console.log(result);
             history.push('/')
@@ -26,23 +32,27 @@ const Login = () => {
         variables: values
     })
 
-    const onChange = (e) => {
-        setValues({
-            ...values,
-            [e.target.name]: e.target.value
-        })
-    }
+    // const onChange = (e) => {
+    //     setValues({
+    //         ...values,
+    //         [e.target.name]: e.target.value
+    //     })
+    // }
 
-    const onSubmit = (e) => {
-        e.preventDefault()
-        addUser()
-    }
+    // const onSubmit = (e) => {
+    //     e.preventDefault()
+    //     addUser()
+    // }
+
+    function loginUserCallback() {
+        loginUser();
+      }
 
    
     return (
         <div className="form-container">
             <Form onSubmit={onSubmit} noValidate className={loading ? 'loading' : ''}>
-                <h1>login</h1>
+                <h1>Login</h1>
                 <Form.Input
                     label="Username"
                     placeholder="Username.."
@@ -52,7 +62,7 @@ const Login = () => {
                     error={errors.username ? true : false}
                     onChange={onChange}
                 />
-                <Form.Input
+                {/* <Form.Input
                     label="Email"
                     placeholder="Email.."
                     name="email"
@@ -60,7 +70,7 @@ const Login = () => {
                     value={values.email}
                     error={errors.email ? true : false}
                     onChange={onChange}
-                />
+                /> */}
                 <Form.Input
                     label="Password"
                     placeholder="Password.."
@@ -70,15 +80,7 @@ const Login = () => {
                     error={errors.password ? true : false}
                     onChange={onChange}
                 />
-                {/* <Form.Input
-                    label="Confirm Password"
-                    placeholder="Confirm Password.."
-                    name="confirmPassword"
-                    type="password"
-                    value={values.confirmPassword}
-                    error={errors.confirmPassword ? true : false}
-                    onChange={onChange}
-                /> */}
+        
                 <Button type="submit" primary>
                     Login
                 </Button>

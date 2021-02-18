@@ -33,20 +33,20 @@ module.exports = {
             const user = checkAuth(context);
     
             if (body.trim() === '') {
-            throw new Error('Post body must not be empty');
+                throw new Error('Post body must not be empty');
             }
     
             const newPost = new Post({
-            body,
-            user: user.id,
-            username: user.username,
-            createdAt: new Date().toISOString()
+                body,
+                user: user.id,
+                username: user.username,
+                createdAt: new Date().toISOString()
             });
     
             const post = await newPost.save();
     
             context.pubsub.publish('NEW_POST', {
-            newPost: post
+                newPost: post
             });
     
             return post;
@@ -71,25 +71,25 @@ module.exports = {
     
             const post = await Post.findById(postId);
             if (post) {
-            if (post.likes.find((like) => like.username === username)) {
-                // Post already likes, unlike it
-                post.likes = post.likes.filter((like) => like.username !== username);
-            } else {
-                // Not liked, like post
-                post.likes.push({
-                username,
-                createdAt: new Date().toISOString()
-                });
-            }
+                if (post.likes.find((like) => like.username === username)) {
+                    // Post already likes, unlike it
+                    post.likes = post.likes.filter((like) => like.username !== username);
+                } else {
+                    // Not liked, like post
+                    post.likes.push({
+                    username,
+                    createdAt: new Date().toISOString()
+                    });
+                }
     
-            await post.save();
-            return post;
+                await post.save();
+                return post;
             } else throw new UserInputError('Post not found');
         }
         },
         Subscription: {
-        newPost: {
-            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('NEW_POST')
-        }
+            newPost: {
+                subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('NEW_POST')
+            }
     }
 }

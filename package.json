@@ -1,0 +1,19 @@
+{
+  "name": "merng-social-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "node index",
+    "start": "node index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.21.0",
+    "graphql": "^15.5.0",
+    "mongoose": "^5.11.17",
+    "nodemon": "^2.0.7"
+  }
+}

@@ -23,6 +23,7 @@ export default function PostForm() {
         }
     });
 
+    console.log(error);
     function createPostCallback() {
         createPost();
     }

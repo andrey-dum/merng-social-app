@@ -12,7 +12,6 @@ const Login = () => {
     const [errors, setErrors] = useState({});
     const context = useContext(AuthContext)
 
-    console.log(context);
 
     // const [values, setValues] = useState({
     //     username: '',
